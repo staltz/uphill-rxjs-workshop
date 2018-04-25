@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>RxJS exercise</title>
+</head>
+
+<body>
+  <script src="https://unpkg.com/rxjs@5.4.3/bundles/Rx.js"></script>
+  <script>
+    /**
+     * Exercise: make an Observable that emits the first 3 clicks as "CLICK",
+     * then the next 3 clicks as "click", then completes.
+     */
+
+    var clicks = Rx.Observable.fromEvent(document, "click");
+    var threeClicks = clicks.take(3);
+
+    var firstPart = threeClicks.map(() => 'CLICK');
+    var secondPart = threeClicks.map(() => 'click');
+
+    var allClicks = Rx.Observable.concat(firstPart, secondPart);
+
+    allClicks.subscribe(x => console.log(x));
+  </script>
+</body>
+
+</html>

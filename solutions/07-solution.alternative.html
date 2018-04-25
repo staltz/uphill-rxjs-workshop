@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>RxJS exercise</title>
+</head>
+
+<body>
+  <div>
+    <button id="decrement">Decrement</button>
+    <button id="increment">Increment</button>
+  </div>
+  <h2>Count:
+    <span id="count"></span>
+  </h2>
+  <script src="https://unpkg.com/rxjs@5.4.3/bundles/Rx.js"></script>
+  <script>
+    // Get DOM elements
+    var decrementElem = document.querySelector('#decrement')
+    var incrementElem = document.querySelector('#increment')
+    var countElem = document.querySelector('#count')
+
+    var initReducerObs = Rx.Observable.of(function initReducer(prevState) {
+      return { count: 0 };
+    });
+
+    var incrementReducerObs = Rx.Observable.fromEvent(incrementElem, 'click')
+      .map(clickEvent => function incrementReducer(prevState) {
+        return { count: prevState.count + 1 };
+      });
+
+    var decrementReducerObs = Rx.Observable.fromEvent(decrementElem, 'click')
+      .map(clickEvent => function decrementReducer(prevState) {
+        return { count: prevState.count - 1 };
+      });
+
+    var reducerObs = Rx.Observable.merge(
+      initReducerObs,
+      incrementReducerObs,
+      decrementReducerObs
+    );
+
+    var stateObs = reducerObs.scan((state, reducer) => reducer(state), {});
+    var count = stateObs.map(state => state.count);
+
+    count.subscribe(val => countElem.textContent = String(val))
+  </script>
+</body>
+
+</html>

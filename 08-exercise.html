@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>RxJS exercise</title>
+</head>
+
+<body>
+  <input type="text" class="first" />
+  <input type="text" class="last" />
+  <h2 class="greeting"></h2>
+  <script src="https://unpkg.com/rxjs@5.4.3/bundles/Rx.js"></script>
+  <script>
+    // Get DOM elements
+    var firstNameField = document.querySelector('.first')
+    var lastNameField = document.querySelector('.last')
+    var greetingElem = document.querySelector('.greeting')
+
+    /**
+     * Exercise: solve two bugs in this code with debugging techniques you
+     * just learned.
+     *
+     * - The full name should display the firstname even if there is no lastname.
+     * - After a while using the input field, it stops working.
+     */
+
+    var firstNameInputEvents = Rx.Observable.fromEvent(firstNameField, 'input')
+    var lastNameInputEvents = Rx.Observable.fromEvent(lastNameField, 'input')
+
+    var MAX_NAME_LENGTH = 20
+
+    var rawFirstName = firstNameInputEvents.map(event => event.target.value)
+    var rawLastName = lastNameInputEvents.map(event => event.target.value)
+
+    var fullName = Rx.Observable
+      .combineLatest(rawFirstName, rawLastName, (first, last) => '' + first + ' ' + last)
+      .debounceTime(200)
+      .filter(name => name.length < MAX_NAME_LENGTH--)
+      .map(name => name.toUpperCase())
+
+    fullName.subscribe({
+      next: (x) => { greetingElem.textContent = x },
+      error: (err) => { console.log('error ' + err) },
+      complete: () => { console.log('done') },
+    })
+  </script>
+</body>
+
+</html>

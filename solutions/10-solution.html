@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>RxJS exercise</title>
+</head>
+
+<body>
+  <script src="https://unpkg.com/rxjs@5.4.3/bundles/Rx.js"></script>
+  <script>
+    /**
+     * Exercise: on every click, make a request to a random user in
+     * JSONPlaceholder servers and deliver the response in the `responses`
+     * observable.
+     *
+     * Example: for a random number NUM (from 1 to 10) in
+     *    https://jsonplaceholder.typicode.com/users/NUM
+     */
+
+    var clicks = Rx.Observable.fromEvent(document, 'click')
+    var urlBase = 'http://jsonplaceholder.typicode.com/users/';
+
+    var responses = clicks
+      .map(() => Rx.Observable.fromPromise(fetch(urlBase + Math.floor(Math.random() * 10))))
+      .switch();
+
+    responses.subscribe({
+      next: (data) => { console.log(data) },
+      error: (err) => { console.log('error ' + err) },
+      complete: () => { console.log('done') },
+    })
+  </script>
+</body>
+
+</html>
