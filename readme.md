@@ -5,9 +5,7 @@
 * Motivation
 * Rx Observable, Observer, Subscription
 * Converting things to Observables
-* (lunch)
 * Basic operators
-* (break)
 * Debugging techniques
 * Subjects and multicasting
 * Observable of observables
