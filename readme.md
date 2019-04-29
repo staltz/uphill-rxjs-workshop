@@ -22,6 +22,9 @@
 * https://github.com/ReactiveX/RxJS (official source code)
 * https://rxjs.dev (official docs)
 * https://github.com/staltz/toy-rx (simplified source code for educational purposes)
+* [How to debug RxJS code](https://staltz.com/how-to-debug-rxjs-code.html)
+* [Primer on RxJS Schedulers](https://staltz.com/primer-on-rxjs-schedulers.html)
+* [Cold and hot callbacks](https://staltz.com/cold-and-hot-callbacks.html)
 
 ## Important operators
 
