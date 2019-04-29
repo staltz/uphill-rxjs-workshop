@@ -1,17 +1,22 @@
+const React = require('react');
+const ReactDOM = require('react-dom');
+const {Subject} = require('rxjs');
+const {map, scan, delay} = require('rxjs/operators')
+
 class Hello extends React.Component {
   constructor() {
     super();
     this.state = { count: 0 };
 
-    this.subject = new Rx.Subject();
+    this.subject = new Subject();
 
-    this.subject
-      .map(ev => +1)
-      .scan((acc, x) => acc + x)
-      .delay(1000)
-      .subscribe(x => {
-        this.setState({ count: x });
-      });
+    this.subject.pipe(
+      map(ev => +1),
+      scan((acc, x) => acc + x),
+      delay(1000),
+    ).subscribe(x => {
+      this.setState({ count: x });
+    });
   }
 
   render() {
@@ -23,4 +28,4 @@ class Hello extends React.Component {
   }
 }
 
-ReactDOM.render(<Hello name="Codestar" />, document.querySelector("#app"));
+ReactDOM.render(<Hello name="Uphill" />, document.querySelector("#app"));

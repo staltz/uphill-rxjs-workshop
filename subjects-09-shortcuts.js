@@ -1,17 +1,18 @@
-const Rx = require("rxjs");
+const {interval, Subject} = require('rxjs');
+const {tap, publishBehavior, refCount} = require('rxjs/operators');
 
-var shared = Rx.Observable
-  .interval(1000)
-  .do(x => console.log("source " + x))
-  .publishBehavior()
-  .refCount();
+const shared$ = interval(1000).pipe(
+  tap(x => console.log("source " + x)),
+  publishBehavior(),
+  refCount(),
+)
 
-// publish = multicast + Subject
-// publishReplay = multicast + ReplaySubject
-// publishBehavior = multicast + BehaviorSubject
+// publish = multicast with Subject
+// publishReplay = multicast with ReplaySubject
+// publishBehavior = multicast with BehaviorSubject
 // share = publish().refCount()
 
-var observerA = {
+const observerA = {
   next: function(x) {
     console.log("A next " + x);
   },
@@ -23,9 +24,9 @@ var observerA = {
   }
 };
 
-var subA = shared.subscribe(observerA);
+const subA = shared$.subscribe(observerA);
 
-var observerB = {
+const observerB = {
   next: function(x) {
     console.log("          B next " + x);
   },
@@ -37,9 +38,9 @@ var observerB = {
   }
 };
 
-var subB;
+let subB;
 setTimeout(function() {
-  subB = shared.subscribe(observerB);
+  subB = shared$.subscribe(observerB);
 }, 2000);
 
 setTimeout(function() {

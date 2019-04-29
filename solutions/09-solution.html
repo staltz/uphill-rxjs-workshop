@@ -10,21 +10,27 @@
 <body>
   <h1 class="number" />
   <h2 class="text"></h2>
-  <script src="https://unpkg.com/rxjs@5.4.3/bundles/Rx.js"></script>
+  <script src="https://unpkg.com/rxjs@6.5.1/bundles/rxjs.umd.min.js"></script>
   <script>
+    const {interval} = rxjs;
+    const {map, startWith, publishReplay, refCount} = rxjs.operators;
+
     // Get DOM elements
-    var numberElement = document.querySelector('.number')
-    var textElement = document.querySelector('.text')
+    const numberElement = document.querySelector('.number');
+    const textElement = document.querySelector('.text');
 
     /**
      * Exercise: fix the mismatch, the number should match the text.
      */
 
-    var randomNumber = Rx.Observable.interval(2000).startWith(null)
-      .map(() => 1 + Math.round(Math.random() * 5))
-      .publishReplay(1).refCount()
+    const randomNumber$ = interval(2000).pipe(
+      startWith(null),
+      map(() => 1 + Math.round(Math.random() * 5)),
+      publishReplay(1),
+      refCount(),
+    );
 
-    var text = randomNumber.map(num => {
+    const text$ = randomNumber$.pipe(map(num => {
       switch (num) {
         case 1: return "one";
         case 2: return "two";
@@ -33,19 +39,19 @@
         case 5: return "five";
         case 6: return "six";
       }
-    })
+    }));
 
-    randomNumber.subscribe({
+    randomNumber$.subscribe({
       next: (x) => { numberElement.textContent = x },
       error: (err) => { console.log('error ' + err) },
       complete: () => { console.log('done') },
-    })
+    });
 
-    text.subscribe({
+    text$.subscribe({
       next: (x) => { textElement.textContent = x },
       error: (err) => { console.log('error ' + err) },
       complete: () => { console.log('done') },
-    })
+    });
   </script>
 </body>
 

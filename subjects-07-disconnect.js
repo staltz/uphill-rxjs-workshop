@@ -1,11 +1,12 @@
-const Rx = require("rxjs");
+const {interval, Subject} = require('rxjs');
+const {tap, multicast} = require('rxjs/operators');
 
-var connectableObservable = Rx.Observable
-  .interval(1000)
-  .do(x => console.log("source " + x))
-  .multicast(new Rx.Subject());
+const connectableObservable = interval(1000).pipe(
+  tap(x => console.log("source " + x)),
+  multicast(new Subject()),
+);
 
-var observerA = {
+const observerA = {
   next: function(x) {
     console.log("A next " + x);
   },
@@ -17,11 +18,11 @@ var observerA = {
   }
 };
 
-var sub = connectableObservable.connect(); // start
+const sub = connectableObservable.connect(); // start
 
-var subA = connectableObservable.subscribe(observerA);
+const subA = connectableObservable.subscribe(observerA);
 
-var observerB = {
+const observerB = {
   next: function(x) {
     console.log("          B next " + x);
   },
@@ -33,7 +34,7 @@ var observerB = {
   }
 };
 
-var subB;
+let subB;
 setTimeout(function() {
   subB = connectableObservable.subscribe(observerB);
 }, 2000);

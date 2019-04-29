@@ -11,12 +11,15 @@
   <input type="text" class="first" />
   <input type="text" class="last" />
   <h2 class="greeting"></h2>
-  <script src="https://unpkg.com/rxjs@5.4.3/bundles/Rx.js"></script>
+  <script src="https://unpkg.com/rxjs@6.5.1/bundles/rxjs.umd.min.js"></script>
   <script>
+    const {fromEvent, combineLatest} = rxjs;
+    const {map, startWith, filter, debounceTime} = rxjs.operators;
+
     // Get DOM elements
-    var firstNameField = document.querySelector('.first')
-    var lastNameField = document.querySelector('.last')
-    var greetingElem = document.querySelector('.greeting')
+    const firstNameField = document.querySelector('.first')
+    const lastNameField = document.querySelector('.last')
+    const greetingElem = document.querySelector('.greeting')
 
     /**
      * Exercise: solve two bugs in this code with debugging techniques you
@@ -26,21 +29,27 @@
      * - After a while using the input field, it stops working.
      */
 
-    var firstNameInputEvents = Rx.Observable.fromEvent(firstNameField, 'input')
-    var lastNameInputEvents = Rx.Observable.fromEvent(lastNameField, 'input')
+    const firstNameInputEvent$ = fromEvent(firstNameField, 'input');
+    const lastNameInputEvent$ = fromEvent(lastNameField, 'input');
 
-    var MAX_NAME_LENGTH = 20
+    const MAX_NAME_LENGTH = 20;
 
-    var rawFirstName = firstNameInputEvents.map(event => event.target.value).startWith('');
-    var rawLastName = lastNameInputEvents.map(event => event.target.value).startWith('')
+    const first$ = firstNameInputEvent$.pipe(
+      map(event => event.target.value),
+      startWith(''),
+    );
+    const last$ = lastNameInputEvent$.pipe(
+      map(event => event.target.value),
+      startWith(''),
+    );
 
-    var fullName = Rx.Observable
-      .combineLatest(rawFirstName, rawLastName, (first, last) => '' + first + ' ' + last)
-      .debounceTime(200)
-      .filter(name => name.length < MAX_NAME_LENGTH)
-      .map(name => name.toUpperCase())
+    const fullName$ = combineLatest(first$, last$, (f, l) => `${f} ${l}`).pipe(
+      debounceTime(200),
+      filter(name => name.length < MAX_NAME_LENGTH),
+      map(name => name.toUpperCase()),
+    );
 
-    fullName.subscribe({
+    fullName$.subscribe({
       next: (x) => { greetingElem.textContent = x },
       error: (err) => { console.log('error ' + err) },
       complete: () => { console.log('done') },

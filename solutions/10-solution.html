@@ -8,8 +8,11 @@
 </head>
 
 <body>
-  <script src="https://unpkg.com/rxjs@5.4.3/bundles/Rx.js"></script>
+  <script src="https://unpkg.com/rxjs@6.5.1/bundles/rxjs.umd.min.js"></script>
   <script>
+    const {fromEvent, from} = rxjs;
+    const {map, switchAll} = rxjs.operators;
+
     /**
      * Exercise: on every click, make a request to a random user in
      * JSONPlaceholder servers and deliver the response in the `responses`
@@ -19,18 +22,21 @@
      *    https://jsonplaceholder.typicode.com/users/NUM
      */
 
-    var clicks = Rx.Observable.fromEvent(document, 'click')
-    var urlBase = 'http://jsonplaceholder.typicode.com/users/';
+    const click$ = fromEvent(document, 'click');
+    const urlBase = 'http://jsonplaceholder.typicode.com/users/';
 
-    var responses = clicks
-      .map(() => Rx.Observable.fromPromise(fetch(urlBase + Math.floor(Math.random() * 10))))
-      .switch();
+    const response$ = click$.pipe(
+      map(() => from(fetch(urlBase + Math.ceil(Math.random() * 10)))),
+      switchAll(),
+      map(res => from(res.json())), // map (again) to a promise
+      switchAll(),
+    );
 
-    responses.subscribe({
+    response$.subscribe({
       next: (data) => { console.log(data) },
       error: (err) => { console.log('error ' + err) },
       complete: () => { console.log('done') },
-    })
+    });
   </script>
 </body>
 

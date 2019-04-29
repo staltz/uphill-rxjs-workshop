@@ -1,7 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongo = require("mongodb");
-const Rx = require("rxjs");
+const {bindNodeCallback} = require("rxjs");
+const {} = require("rxjs/operators");
 
 const app = express();
 app.use(express.static(__dirname + "/public"));
@@ -16,14 +17,12 @@ app.set("view engine", "ejs");
  * It's okay to use only methods that you have learned so far.
  */
 
-const connectAsObservable = Rx.Observable.bindNodeCallback(
-  mongo.MongoClient.connect
-);
+const connectAsObservable = bindNodeCallback(mongo.MongoClient.connect);
 
-const dbObservable = connectAsObservable("mongodb://localhost:27017/dbhere");
+const db$ = connectAsObservable("mongodb://localhost:27017/dbhere");
 
 app.get("/", (req, res) => {
-  dbObservable.subscribe({
+  db$.subscribe({
     next: db => {
       db
         .collection("tasks")
@@ -54,14 +53,14 @@ app.listen(app.get("port"), () => {
 {
   "main": "index.js",
   "scripts": {
-    "start": "mongod --dbpath=~/talented-rx-workshop-mongodb & node index.js"
+    "start": "mongod --dbpath=~/uphill-rxjs-workshop & node index.js"
   },
   "dependencies": {
     "body-parser": "^1.16.0",
     "ejs": "^2.5.5",
     "express": "^4.14.1",
     "mongodb": "^2.2.22",
-    "rxjs": "^5.0.3"
+    "rxjs": "^6.5.1"
   }
 }
  */

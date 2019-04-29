@@ -1,13 +1,13 @@
-const Rx = require("rxjs");
+const {interval, Subject} = require('rxjs');
+const {take, startWith, multicast} = require('rxjs/operators');
 
-var clock = Rx.Observable
-  .interval(1000)
-  .take(5)
-  .startWith(-1)
-  .multicast(() => new Rx.ReplaySubject(100))
-  .refCount();
+const clock$ = interval(1000).pipe(
+  take(5),
+  startWith(-1),
+  multicast(() => new Subject()),
+);
 
-var observerA = {
+const observerA = {
   next: function(x) {
     console.log("A next " + x);
   },
@@ -20,28 +20,32 @@ var observerA = {
 };
 
 console.log("A subscribed");
-const subA = clock.subscribe(observerA);
+const subA = clock$.subscribe(observerA);
 
-var observerB = {
+console.log('connect the clock$');
+clock$.connect();
+
+const observerB = {
   next: function(x) {
-    console.log("          B next " + x);
+    console.log("\t\tB next " + x);
   },
   error: function(err) {
-    console.log("          B error " + err);
+    console.log("\t\tB error " + err);
   },
   complete: function() {
-    console.log("          B done");
+    console.log("\t\tB done");
   }
 };
 
 let subB;
 setTimeout(function() {
-  console.log("B subscribed");
-  subB = clock.subscribe(observerB);
+  console.log("\t\tB subscribed");
+  subB = clock$.subscribe(observerB);
 }, 2000);
 
 setTimeout(() => {
-  // console.log("both unsubscribe");
+  // console.log("A unsubscribed");
   // subA.unsubscribe();
+  // console.log("\t\tB unsubscribed");
   // subB.unsubscribe();
 }, 3500);

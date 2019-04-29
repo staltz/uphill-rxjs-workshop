@@ -8,8 +8,11 @@
 </head>
 
 <body>
-  <script src="https://unpkg.com/rxjs@5.4.3/bundles/Rx.js"></script>
+  <script src="https://unpkg.com/rxjs@6.5.1/bundles/rxjs.umd.min.js"></script>
   <script>
+    const {fromEvent} = rxjs;
+    const {} = rxjs.operators;
+
     /**
      * Exercise: on every click, make a request to a random user in
      * JSONPlaceholder servers and deliver the response in the `responses`
@@ -19,11 +22,11 @@
      *    https://jsonplaceholder.typicode.com/users/NUM
      */
 
-    var clicks = Rx.Observable.fromEvent(document, 'click')
+    const click$ = fromEvent(document, 'click');
 
-    var responses = undefined // your solution here
+    const response$ = undefined // your solution here
 
-    responses.subscribe({
+    response$.subscribe({
       next: (data) => { console.log(data) },
       error: (err) => { console.log('error ' + err) },
       complete: () => { console.log('done') },

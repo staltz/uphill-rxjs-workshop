@@ -8,22 +8,24 @@
 </head>
 
 <body>
-  <script src="https://unpkg.com/rxjs@5.4.3/bundles/Rx.js"></script>
+  <script src="https://unpkg.com/rxjs@6.5.1/bundles/rxjs.umd.min.js"></script>
   <script>
     /**
      * Exercise: make an Observable that emits the first 3 clicks as "CLICK",
      * then the next 3 clicks as "click", then completes.
      */
+    const {fromEvent, concat} = rxjs;
+    const {take, map} = rxjs.operators;
 
-    var clicks = Rx.Observable.fromEvent(document, "click");
-    var threeClicks = clicks.take(3);
+    const click$ = fromEvent(document, "click");
+    const threeClicks$ = click$.pipe(take(3));
 
-    var firstPart = threeClicks.map(() => 'CLICK');
-    var secondPart = threeClicks.map(() => 'click');
+    const firstPart$ = threeClicks$.pipe(map(() => 'CLICK'));
+    const secondPart$ = threeClicks$.pipe(map(() => 'click'));
 
-    var allClicks = Rx.Observable.concat(firstPart, secondPart);
+    const result$ = concat(firstPart$, secondPart$);
 
-    allClicks.subscribe(x => console.log(x));
+    result$.subscribe(x => console.log(x));
   </script>
 </body>
 

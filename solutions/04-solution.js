@@ -1,4 +1,5 @@
-const Rx = require('rxjs');
+const {interval} = require('rxjs');
+const {take, filter, map} = require('rxjs/operators')
 
 /**
  * Exercise: from interval(1000), make an Observable with 10 EVEN numbers
@@ -6,9 +7,10 @@ const Rx = require('rxjs');
  * in console.log.
  */
 
-const obs = Rx.Observable.interval(1000)
-  .take(10)
-  .filter(x => x % 2 === 0)
-  .map(x => x * 100);
+const obs = interval(1000).pipe(
+  take(10),
+  filter(x => x % 2 === 0),
+  map(x => x * 100)
+)
 
 obs.subscribe(x => console.log(x));

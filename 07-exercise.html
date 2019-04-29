@@ -15,22 +15,25 @@
   <h2>Count:
     <span id="count"></span>
   </h2>
-  <script src="https://unpkg.com/rxjs@5.4.3/bundles/Rx.js"></script>
+  <script src="https://unpkg.com/rxjs@6.5.1/bundles/rxjs.umd.min.js"></script>
   <script>
+    const {} = rxjs;
+    const {} = rxjs.operators;
+
     // Get DOM elements
-    var decrementElem = document.querySelector('#decrement')
-    var incrementElem = document.querySelector('#increment')
-    var countElem = document.querySelector('#count')
+    const decrementElem = document.querySelector('#decrement')
+    const incrementElem = document.querySelector('#increment')
+    const countElem = document.querySelector('#count')
 
     /**
-     * Exercise: create the `count` observable that initially emits zero,
+     * Exercise: create the `count$` observable that initially emits zero,
      * and this number gets either incremented or decremented when the buttons
      * increment and decrement are clicked.
      */
 
-    var count = undefined // your solution here
+    const count$ = undefined // your solution here
 
-    count.subscribe(val => countElem.textContent = String(val))
+    count$.subscribe(val => countElem.textContent = String(val))
   </script>
 </body>
 

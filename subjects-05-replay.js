@@ -1,8 +1,8 @@
-const Rx = require("rxjs");
+const {ReplaySubject} = require("rxjs");
 
-var subject = new Rx.ReplaySubject(100);
+const subject = new ReplaySubject(100);
 
-var observerA = {
+const observerA = {
   next: function(x) {
     console.log("A next " + x);
   },
@@ -17,7 +17,7 @@ var observerA = {
 subject.subscribe(observerA);
 console.log("observerA subscribed");
 
-var observerB = {
+const observerB = {
   next: function(x) {
     console.log("          B next " + x);
   },

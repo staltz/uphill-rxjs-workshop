@@ -1,4 +1,5 @@
-const Rx = require("rxjs");
+const {interval} = require("rxjs");
+const {} = require('rxjs/operators')
 
 /**
  * Exercise: from interval(1000), make an Observable with 10 EVEN numbers

@@ -1,0 +1,7 @@
+{
+  "name": "workshop",
+  "version": "0.0.0",
+  "dependencies": {
+    "rxjs": "~6.5.1"
+  }
+}

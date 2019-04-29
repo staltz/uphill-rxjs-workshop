@@ -1,10 +1,11 @@
-const Rx = require("rxjs");
+const {interval, Subject} = require("rxjs");
+const {take} = require('rxjs/operators');
 
-var observable = Rx.Observable.interval(1000).take(5);
+const observable = interval(1000).pipe(take(5));
 
-var subject = new Rx.Subject();
+const subject = new Subject();
 
-var observerA = {
+const observerA = {
   next: function(x) {
     console.log("A next " + x);
   },
@@ -20,7 +21,7 @@ observable.subscribe(subject);
 
 subject.subscribe(observerA);
 
-var observerB = {
+const observerB = {
   next: function(x) {
     console.log("          B next " + x);
   },

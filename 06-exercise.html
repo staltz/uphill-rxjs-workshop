@@ -21,39 +21,42 @@
     </div>
     <h2 id="bmi"></h2>
   </div>
-  <script src="https://unpkg.com/rxjs@5.4.3/bundles/Rx.js"></script>
+  <script src="https://unpkg.com/rxjs@6.5.1/bundles/rxjs.umd.min.js"></script>
   <script>
+    const {} = rxjs;
+    const {} = rxjs.operators;
+
     // Get DOM elements
-    var weightSliderElem = document.querySelector('#weight-slider')
-    var weightFieldElem = document.querySelector('#weight-field')
-    var weightTextElem = document.querySelector('#weight-text')
+    const weightSliderElem = document.querySelector('#weight-slider')
+    const weightFieldElem = document.querySelector('#weight-field')
+    const weightTextElem = document.querySelector('#weight-text')
 
-    var heightSliderElem = document.querySelector('#height-slider')
-    var heightFieldElem = document.querySelector('#height-field')
-    var heightTextElem = document.querySelector('#height-text')
+    const heightSliderElem = document.querySelector('#height-slider')
+    const heightFieldElem = document.querySelector('#height-field')
+    const heightTextElem = document.querySelector('#height-text')
 
-    var bmiElem = document.querySelector('#bmi')
+    const bmiElem = document.querySelector('#bmi')
 
     /**
-     * Exercise: create the `weight` observable which initially emits the current
+     * Exercise: create the `weight$` observable which initially emits the current
      * value on the weightSliderElem, then will emit new values coming from either
      * weightSliderElem or weightFieldElem.
      *
-     * Do similarly for `height` too.
+     * Do similarly for `height$` too.
      */
-    var weight = undefined // your solution here
-    var height = undefined // your solution here
+    const weight$ = undefined // your solution here
+    const height$ = undefined // your solution here
 
     /**
-     * Exercise: create the `bmi` observable which emits a calculated value from
-     * `weight` and `height`, using the formula:
-     *     bmi = w / ((h * 0.01) * (h * 0.01))
+     * Exercise: create the `bmi$` observable which emits a value
+     * calculated from `weight$` and `height$`, using the formula:
+     *     bmi = weight / ((height * 0.01) * (height * 0.01))
      */
-    var bmi = undefined // your solution here
+    const bmi$ = undefined // your solution here
 
-    weight.subscribe(val => weightTextElem.textContent = 'Weight: ' + val + 'kg')
-    height.subscribe(val => heightTextElem.textContent = 'Height: ' + val + 'cm')
-    bmi.subscribe(val => bmiElem.textContent = String(val))
+    weight$.subscribe(val => weightTextElem.textContent = 'Weight: ' + val + 'kg')
+    height$.subscribe(val => heightTextElem.textContent = 'Height: ' + val + 'cm')
+    bmi$.subscribe(val => bmiElem.textContent = String(val))
   </script>
 </body>
 

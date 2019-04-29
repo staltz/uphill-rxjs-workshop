@@ -12,19 +12,18 @@
 
 ### Useful links:
 
-* https://github.com/staltz/toy-rx (simplified source code for educational purposes)
 * https://github.com/ReactiveX/RxJS (official source code)
-* http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html (official docs for Observable & operators)
+* https://rxjs.dev (official docs)
+* https://github.com/staltz/toy-rx (simplified source code for educational purposes)
 
 ## Important operators
 
 Creation:
 
 * `create` (low-level)
-* `from`
 * `interval`
+* `from`
 * `fromEvent`
-* `fromPromise`
 * `of` (alias for `from(array)`)
 * `bindNodeCallback`
 
@@ -56,11 +55,11 @@ Multicasting:
 
 Flattening:
 
-* `switch` (concurrency 1, with cancellation)
+* `switchAll` (concurrency 1, with cancellation)
 * `concatAll` (concurrency 1, waits for completion)
 * `mergeAll` (infinite concurrency)
 
 Others:
 
-* `do`
+* `tap`
 * `delay`

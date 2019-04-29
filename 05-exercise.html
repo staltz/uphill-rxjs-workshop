@@ -8,18 +8,18 @@
 </head>
 
 <body>
-  <script src="https://unpkg.com/rxjs@5.4.3/bundles/Rx.js"></script>
+  <script src="https://unpkg.com/rxjs@6.5.1/bundles/rxjs.umd.min.js"></script>
   <script>
     /**
      * Exercise: make an Observable that emits the first 3 clicks as "CLICK",
      * then the next 3 clicks as "click", then completes.
      */
+    const {} = rxjs;
+    const {} = rxjs.operators;
 
-    var clicks = Rx.Observable.fromEvent(document, "click");
+    const result$ = undefined; // your solution here
 
-    var allClicks = undefined; // your solution here
-
-    allClicks.subscribe(x => console.log(x));
+    result$.subscribe(x => console.log(x));
   </script>
 </body>
 

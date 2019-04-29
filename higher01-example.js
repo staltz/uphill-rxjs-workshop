@@ -1,9 +1,10 @@
-const Rx = require("rxjs");
+const {fromEvent, interval} = require("rxjs");
+const {map} = require('rxjs/operators')
 
-const clickObservable = Rx.Observable.fromEvent(document, "click");
+const click$ = fromEvent(document, "click");
 
-const clockObservable = clickObservable.map(click =>
-  Rx.Observable.interval(1000)
+const clock$ = click$.pipe(
+  map(click => interval(1000)),
 );
 
-clockObservable.subscribe(clock => clock.subscribe(x => console.log(x)));
+clock$.subscribe(clock => clock.subscribe(x => console.log(x)));

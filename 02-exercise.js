@@ -1,4 +1,4 @@
-const Rx = require("rxjs");
+const {Observable} = require("rxjs");
 
 /**
  * Exercise: use Observable.create to deliver to the observer all the items

@@ -1,7 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongo = require("mongodb");
-const Rx = require("rxjs");
+const {} = require("rxjs");
+const {} = require("rxjs/operators");
 
 const app = express();
 app.use(express.static(__dirname + "/public"));
@@ -47,14 +48,14 @@ app.listen(app.get("port"), () => {
 {
   "main": "index.js",
   "scripts": {
-    "start": "mongod --dbpath=~/talented-rx-workshop-mongodb & node index.js"
+    "start": "mongod --dbpath=~/uphill-rxjs-workshop & node index.js"
   },
   "dependencies": {
     "body-parser": "^1.16.0",
     "ejs": "^2.5.5",
     "express": "^4.14.1",
     "mongodb": "^2.2.22",
-    "rxjs": "^5.0.3"
+    "rxjs": "^6.5.1"
   }
 }
  */

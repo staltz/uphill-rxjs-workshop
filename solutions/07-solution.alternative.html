@@ -15,37 +15,42 @@
   <h2>Count:
     <span id="count"></span>
   </h2>
-  <script src="https://unpkg.com/rxjs@5.4.3/bundles/Rx.js"></script>
+  <script src="https://unpkg.com/rxjs@6.5.1/bundles/rxjs.umd.min.js"></script>
   <script>
-    // Get DOM elements
-    var decrementElem = document.querySelector('#decrement')
-    var incrementElem = document.querySelector('#increment')
-    var countElem = document.querySelector('#count')
+    const {fromEvent, merge, of} = rxjs;
+    const {map, scan} = rxjs.operators;
 
-    var initReducerObs = Rx.Observable.of(function initReducer(prevState) {
+    // Get DOM elements
+    const decrementElem = document.querySelector('#decrement')
+    const incrementElem = document.querySelector('#increment')
+    const countElem = document.querySelector('#count')
+
+    const initReducer$ = of(function initReducer(prevState) {
       return { count: 0 };
     });
 
-    var incrementReducerObs = Rx.Observable.fromEvent(incrementElem, 'click')
-      .map(clickEvent => function incrementReducer(prevState) {
+    const incrementReducer$ = fromEvent(incrementElem, 'click').pipe(
+      map(clickEvent => function incrementReducer(prevState) {
         return { count: prevState.count + 1 };
-      });
-
-    var decrementReducerObs = Rx.Observable.fromEvent(decrementElem, 'click')
-      .map(clickEvent => function decrementReducer(prevState) {
-        return { count: prevState.count - 1 };
-      });
-
-    var reducerObs = Rx.Observable.merge(
-      initReducerObs,
-      incrementReducerObs,
-      decrementReducerObs
+      }),
     );
 
-    var stateObs = reducerObs.scan((state, reducer) => reducer(state), {});
-    var count = stateObs.map(state => state.count);
+    const decrementReducer$ = fromEvent(decrementElem, 'click').pipe(
+      map(clickEvent => function decrementReducer(prevState) {
+        return { count: prevState.count - 1 };
+      }),
+    );
 
-    count.subscribe(val => countElem.textContent = String(val))
+    const reducer$ = merge(
+      initReducer$,
+      incrementReducer$,
+      decrementReducer$,
+    );
+
+    const state$ = reducer$.pipe(scan((state, reducer) => reducer(state), {}));
+    const count$ = state$.pipe(map(state => state.count));
+
+    count$.subscribe(val => countElem.textContent = String(val))
   </script>
 </body>
 

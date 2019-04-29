@@ -1,4 +1,4 @@
-const Rx = require("rxjs");
+const {Observable} = require("rxjs");
 
 /**
  * Exercise: use Observable.create to deliver to the observer all the items
@@ -6,17 +6,17 @@ const Rx = require("rxjs");
  */
 
 function fromArray(arr) {
-  return Rx.Observable.create(function subscribe(observer) {
-    arr.forEach(function(element) {
-      observer.next(element);
-    });
+  return Observable.create(function subscribe(observer) {
+    for (let x of arr) {
+      observer.next(x);
+    }
     observer.complete();
   });
 }
 
-var arrObs = fromArray([1, 2, 3, 4, 5]);
+var arr$ = fromArray([1, 2, 3, 4, 5]);
 
-arrObs.subscribe({
+arr$.subscribe({
   next: x => console.log(x),
   error: e => console.error(e),
   complete: () => console.log("complete")

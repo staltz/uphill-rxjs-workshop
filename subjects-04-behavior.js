@@ -1,8 +1,8 @@
-const Rx = require("rxjs");
+const {BehaviorSubject} = require("rxjs");
 
-var subject = new Rx.BehaviorSubject(0);
+const subject = new BehaviorSubject();
 
-var observerA = {
+const observerA = {
   next: function(x) {
     console.log("A next " + x);
   },
@@ -17,7 +17,7 @@ var observerA = {
 subject.subscribe(observerA);
 console.log("observerA subscribed");
 
-var observerB = {
+const observerB = {
   next: function(x) {
     console.log("          B next " + x);
   },

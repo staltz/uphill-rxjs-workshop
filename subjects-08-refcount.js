@@ -1,12 +1,13 @@
-const Rx = require("rxjs");
+const {interval, Subject} = require('rxjs');
+const {tap, multicast, refCount} = require('rxjs/operators');
 
-var shared = Rx.Observable
-  .interval(1000)
-  .do(x => console.log("source " + x))
-  .multicast(new Rx.Subject())
-  .refCount();
+const shared$ = interval(1000).pipe(
+  tap(x => console.log("source " + x)),
+  multicast(() => new Subject()),
+  refCount(),
+);
 
-var observerA = {
+const observerA = {
   next: function(x) {
     console.log("A next " + x);
   },
@@ -19,9 +20,9 @@ var observerA = {
 };
 
 console.log("subscribed A");
-var subA = shared.subscribe(observerA); // start
+const subA = shared$.subscribe(observerA); // start
 
-var observerB = {
+const observerB = {
   next: function(x) {
     console.log("          B next " + x);
   },
@@ -33,10 +34,10 @@ var observerB = {
   }
 };
 
-var subB;
+let subB;
 setTimeout(function() {
   console.log("subscribed B");
-  subB = shared.subscribe(observerB); // 1 => 2
+  subB = shared$.subscribe(observerB); // 1 => 2
 }, 2000);
 
 setTimeout(function() {
