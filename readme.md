@@ -10,6 +10,13 @@
 * Subjects and multicasting
 * Observable of observables
 
+### Setup
+
+* Install git and clone this repository
+* Install Node.js (version 8 or higher) and npm
+* Run `npm install`
+* Run `node check.js`
+
 ### Useful links:
 
 * https://github.com/ReactiveX/RxJS (official source code)
