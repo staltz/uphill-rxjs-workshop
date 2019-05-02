@@ -22,6 +22,7 @@
 * Install Node.js (version 8 or higher) and npm
 * Run `npm install`
 * Run `node check.js`
+* Optional: join the [Gitter chat](https://gitter.im/uphill-rxjs-workshop/community)
 
 ### Useful links:
 
