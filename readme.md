@@ -32,6 +32,8 @@
 * [How to debug RxJS code](https://staltz.com/how-to-debug-rxjs-code.html)
 * [Primer on RxJS Schedulers](https://staltz.com/primer-on-rxjs-schedulers.html)
 * [Cold and hot callbacks](https://staltz.com/cold-and-hot-callbacks.html)
+* https://rxmarbles.com
+* https://reactive.how/rxjs
 
 ## Important operators
 
