@@ -10,6 +10,12 @@
 * Subjects and multicasting
 * Observable of observables
 
+### Breaks
+
+* Coffee break from 10:30 to 11:00
+* **Lunch from 12:30 to 13:30**
+* Coffee break from 15:00 to 15:30
+
 ### Setup
 
 * Install git and clone this repository
